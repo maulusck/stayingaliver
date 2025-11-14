@@ -1,15 +1,22 @@
 @color 0B
 @pushd %~dp0
 @echo off
-set EXE=%~dp0stayingaliver.exe
-set ICON=%~dp0res\icon.ico
-set SHORTCUT=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Stayingaliver.lnk
+SET EXE=%~dp0stayingaliver.exe
+SET ICON=%~dp0res\icon.ico
+SET SHORTCUT=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Stayingaliver.lnk
 
 if exist "%EXE%" (
-    powershell -NoProfile -Command "$s=(New-Object -ComObject WScript.Shell).CreateShortcut('%SHORTCUT%');$s.TargetPath='%EXE%';$s.IconLocation='%ICON%';$s.Save()"
-    echo Shortcut created at %SHORTCUT%.
+    powershell -NoProfile -Command "$s=(New-Object -ComObject WScript.Shell).CreateShortcut('%SHORTCUT%')
+    $s.TargetPath='%EXE%'
+    $s.IconLocation='%ICON%'
+    $s.Save()"
+    echo Shortcut created at "%SHORTCUT%".
+    choice /N /M "Do you want to enable auto-start at login? [Y/N]: "
+    if %errorlevel% EQU 0 (
+        copy /Y "%SHORTCUT%" "%SHORTCUT:Programs=Programs\Startup%"
+        echo Autostart shortcut created at "%SHORTCUT:Programs=Programs\Startup%".
+    )
 ) else (
-    echo ERROR: %EXE% not found! Please run build.cmd first.
+echo ERROR: %EXE% not found! Please run build.cmd first.
 )
-
 pause
