@@ -1,4 +1,3 @@
-@color 1F
 @pushd %~dp0
 @setlocal enabledelayedexpansion
 @echo off
