@@ -1,4 +1,4 @@
-@color 0B
+@color 1F
 @pushd %~dp0
 @echo off
 taskkill /f /im stayingaliver.exe
